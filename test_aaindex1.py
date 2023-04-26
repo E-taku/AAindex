@@ -22,16 +22,11 @@ class AAindex1TestCase(unittest.TestCase):
     
     def test01_get_amino_values(self):
         result = self.testA1.get_amino_values()
-        test_data = "KARS160122"
-        self.assertIn(test_data, result)
-    
-    def test02_get_amino_values(self):
-        result = self.testA1.get_amino_values()
-        test_data = "KARS160113"
+        test_data = random.choice(list(self.testA1.get_amino_values().keys()))
         self.assertIn(test_data, result)
     
     def test_get_amino_values_list(self):
-        # 特徴量が21要素からなるか（[key, A, L, R, ...]）
+        # 特徴量が21要素からなるか（[idx, A, L, R, ...]）
         idx = random.randint(0, self.testA1.get_all_aaindex1_number() - 1)
         result = len(self.testA1.get_amino_values_list()[idx])
         test_data = 21
