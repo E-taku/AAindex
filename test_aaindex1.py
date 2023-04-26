@@ -1,5 +1,6 @@
 import unittest
 from aaindex1 import AAindex1 as a1
+import random
 
 class AAindex1TestCase(unittest.TestCase):
     def setUp(self):
@@ -29,6 +30,13 @@ class AAindex1TestCase(unittest.TestCase):
         test_data = "KARS160113"
         self.assertIn(test_data, result)
     
+    def test_get_amino_values_list(self):
+        # 特徴量が21要素からなるか（[key, A, L, R, ...]）
+        idx = random.randint(0, self.testA1.get_all_aaindex1_number() - 1)
+        result = len(self.testA1.get_amino_values_list()[idx])
+        test_data = 21
+        self.assertEqual(test_data, result)
+
 
 
 if __name__ == "__main__":
