@@ -1,10 +1,11 @@
 from collections import defaultdict
 from aaindex import aaindex1
+from makeData import MakeDataset
 
 class AAindex1:
     def __init__(self):
         self.all_aaindex1_data: dict = self.get_all_aaindex1_data()
-        
+
     def get_all_aaindex1_names(self) -> list:
         aa1_names = aaindex1.record_names()
         return aa1_names
@@ -23,32 +24,49 @@ class AAindex1:
         return accession_vals
     
     def get_amino_values_list(self) -> list:
+        """
+        return : [
+            [idx, A_val, C_val, ...]
+            :
+            :
+        ]
+        """
         values_list = list()
         accession_vals: dict = self.get_amino_values()
-        for acc, values_dic in accession_vals.items():
-            tmp_val_list: list = [acc]
+        for i, values_dic in enumerate(accession_vals.values()):
+            tmp_val_list: list = [i]
             for amino_query in values_dic:
                 if amino_query == '-':
                     continue
                 tmp_val_list.append(values_dic[amino_query])
             values_list.append(tmp_val_list)
         return values_list
+
+    def get_each_amino_val(self) -> dict:
+        each_amino = defaultdict(list)
+        accession_vals: dict = self.get_amino_values()
+        for values_dic in accession_vals.values():
+            for key, amino_val in values_dic.items():
+                if key == "-":
+                    continue
+                each_amino[key].append(amino_val)
+        return each_amino
     
     
 
 aa1 = AAindex1()
-# print(aa1.get_all_aaindex1_names())
 
 accession_vals = aa1.get_amino_values()
-for k, v in accession_vals.items():
-    print(k, v)
-
 aa1_names = aa1.get_all_aaindex1_names()
-# print(aa1_names)
 aa1_nums = aa1.get_all_aaindex1_number()
-# print(aa1_nums)
 
+each_amino_score = aa1.get_each_amino_val()
+
+# ↓Neprocでいうとpssm(MakeDatasetForLayer1(MakeDataset):)
 amino_values_list = aa1.get_amino_values_list()
-print(amino_values_list)
-print(len(amino_values_list))
-# print(aa1.all_aaindex1_data)
+
+seq: str = "MLWQKPTAPEQAPAPARPYQGVRVKEPVKELLRRKRGHASSGAAPAPTAVVLPHQPLATYTTVGPSCLDMEGSVSAVTEEAALCAGWLSQPTPATLQPLAPWTPYTEYVPHEAVSCPYSADMYVQPVCPSYTVVGPSSVLTYASPPLITNVTTRSSATPAVGPPLEGPEHQAPLTYFPWPQPLSTLPTSTLQYQPPAPALPGPQFVQLPISIPEPVLQDMEDPRRAASSLTIDKLLLEEEDSDAYALNHTLSVEGF"
+AA1MD = MakeDataset()
+make_dummy_seq = AA1MD.make_dummy_seq(15, seq)
+
+window_dataset = AA1MD.make_data_with_window(seq, make_dummy_seq, 15, each_amino_score)
