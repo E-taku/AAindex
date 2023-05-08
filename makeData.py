@@ -28,3 +28,19 @@ class MakeDataset(object):
             dataset.append(each_site)
         return np.array(dataset, np.float32)
     
+    def make_narray_shape_transformation_whole(self,pssm_n):
+        """
+        Args:
+            pssm_n (_numpy.ndarray_): pssm with window size n
+            data_no (_list_): idx of list
+            
+        Returns:
+            dataset _numpy.ndarray_: Convert to 393*315 dimensions
+        """
+        return np.reshape(pssm_n, (len(pssm_n), -1))
+    
+        dataset = []
+        for idx in range(len(pssm_n)):
+            pssm_dimension_1 = np.array(pssm_n[idx][0].flatten(),np.float32)
+            dataset.append(pssm_dimension_1)
+        return np.array(dataset,np.float32)

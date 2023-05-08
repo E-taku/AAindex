@@ -70,3 +70,9 @@ AA1MD = MakeDataset()
 make_dummy_seq = AA1MD.make_dummy_seq(15, seq)
 
 window_dataset = AA1MD.make_data_with_window(seq, make_dummy_seq, 15, each_amino_score)
+window_dataset_transformation = AA1MD.make_narray_shape_transformation_whole(window_dataset)
+
+print("window_dataset", window_dataset)
+print("window_dataset", window_dataset.shape)
+print("window_dataset_transformation", window_dataset_transformation)
+print("window_dataset_transformation", window_dataset_transformation.shape)
