@@ -18,6 +18,22 @@ class MakeDataset(object):
             li.append(idx)
         return li
     
+    def get_window_seqList(self, window_size, seq):
+        seq_length = len(seq)
+        half_window_size = window_size // 2
+        new_seq = list()
+        for idx in range(seq_length+window_size - 1):
+            if idx < half_window_size:
+                new_seq.append("-")
+            elif idx >= seq_length+half_window_size:
+                new_seq.append("-")
+            else:
+                new_seq.append(seq[idx-half_window_size])
+        print(new_seq)
+        print(len(new_seq))
+        return new_seq
+        
+    
     def make_data_with_window(self, amino_seq, dummy_seq, window, each_amino_score):
         dataset = []
         for idx in range(len(amino_seq)):  # index of amino_seq
